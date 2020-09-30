@@ -1,0 +1,15 @@
+{
+    "name": "iguoji/minimal-container",
+    "description": "php psr-11 container",
+    "keywords": ["psr-11", "container"],
+    "homepage": "https://github.com/iguoji/minimal-container",
+    "require": {
+        "psr/container": "1.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Minimal\\Container\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
