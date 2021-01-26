@@ -1,5 +1,6 @@
 {
     "name": "iguoji/minimal-container",
+    "type": "library",
     "description": "php psr-11 container",
     "keywords": ["psr-11", "container"],
     "homepage": "https://github.com/iguoji/minimal-container",
