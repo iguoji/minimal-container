@@ -67,7 +67,7 @@ class Container implements ContainerInterface
     {
         $id = $this->getAlias($id);
         if (!$this->has($id)) {
-            return $this->make($id);
+            $this->instances[$id] = $this->make($id);
         }
         return $this->instances[$id];
     }
