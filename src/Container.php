@@ -117,25 +117,22 @@ class Container implements ContainerInterface
     {
         // 方法/函数反射对象
         $reflection = $callable instanceof Closure ? new ReflectionFunction($callable) : new ReflectionMethod(...$callable);
-        // 上下文$this
-        $context = $this;
-        // 根据情况判断是否需要调用者
-        if ($reflection instanceof ReflectionFunction || $reflection->isStatic()) {
-            // 不需调用者
-            $context = null;
-        } else if (is_array($callable) && is_object($callable[0])) {
-            // 提供了调用者
-            $context = $callable[0];
-        } else {
-            // 需要调用者
-            $context = $this->newInstance($callable[0]);
-        }
         // 解析参数
         $invokeParams = $this->getParameters($reflection);
         // 合并参数
         $parameters = array_merge($invokeParams, $parameters);
+        // 根据情况判断是否需要调用者
+        if ($reflection instanceof ReflectionMethod) {
+            if (is_array($callable) && is_object($callable[0])) {
+                // 提供了调用者
+                array_unshift($parameters, $callable[0]);
+            } else {
+                // 需要调用者
+                array_unshift($parameters, $this->newInstance($callable[0]));
+            }
+        }
         // 返回结果
-        return $reflection->invoke($context, ...$parameters);
+        return $reflection->invoke(...$parameters);
     }
 
     /**
@@ -190,7 +187,7 @@ class Container implements ContainerInterface
         foreach ($params as $key => $param) {
             // 参数类型
             $paramType = $param->getType();
-            if (! $paramType->isBuiltin()) {
+            if (!is_null($paramType) && !$paramType->isBuiltin()) {
                 // 类型名称
                 $className = $paramType->getName();
                 // 判断是否已经存在
