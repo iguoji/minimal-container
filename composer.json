@@ -4,6 +4,7 @@
     "description": "php psr-11 container",
     "keywords": ["psr-11", "container"],
     "homepage": "https://github.com/iguoji/minimal-container",
+    "license": "Apache-2.0",
     "require": {
         "psr/container": "1.0.0"
     },
